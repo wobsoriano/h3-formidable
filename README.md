@@ -18,9 +18,9 @@ per route
 import { readFiles } from 'h3-formidable'
 
 export default eventHandler(async (event) => {
-  // Parse a file upload
   const files = await readFiles(event, {
     // formidable options
+    // https://github.com/node-formidable/formidable#options
   })
 })
 ```
