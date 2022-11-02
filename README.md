@@ -17,7 +17,7 @@ per route
 ```ts
 import { readFiles } from 'h3-formidable'
 
-export default defineEventHandler(async (event) => {
+export default eventHandler(async (event) => {
   // Parse a file upload
   const files = await readFiles(event, {
     // formidable options
