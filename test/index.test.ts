@@ -8,7 +8,7 @@ import { createApp, eventHandler, toNodeListener } from 'h3'
 import { readFileMiddleware, readFiles } from '../src'
 
 function getFileContent(path: string) {
-  return fs.readFileSync(path).toString()
+  return fs.readFileSync(path).toString().trim()
 }
 
 describe('parse multipart/form-data', () => {
@@ -27,11 +27,9 @@ describe('parse multipart/form-data', () => {
     }))
 
     const pathToFile = path.join(__dirname, '/hello.txt')
-    const res = await request.post('/upload')
-      .attach('text', pathToFile)
+    const res = await request.post('/upload').attach('text', pathToFile)
 
-    expect(res.status).toEqual(200)
-    expect(getFileContent(res.body.files.text[0].filepath)).toBe(getFileContent(pathToFile))
+    expect(getFileContent(res.body.files.text[0].filepath)).toBe('Hello world')
   })
 
   test('readFileMiddleware()', async () => {
@@ -44,7 +42,6 @@ describe('parse multipart/form-data', () => {
     const pathToFile = path.join(__dirname, '/hello.txt')
     const res = await request.post('/upload').attach('text', pathToFile)
 
-    expect(res.status).toEqual(200)
-    expect(getFileContent(res.body.files.text[0].filepath)).toBe(getFileContent(pathToFile))
+    expect(getFileContent(res.body.files.text[0].filepath)).toBe('Hello world')
   })
 })
