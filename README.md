@@ -12,6 +12,8 @@ npm install h3-formidable
 
 ## Usage
 
+per route
+
 ```ts
 import { readFiles } from 'h3-formidable'
 
@@ -21,6 +23,30 @@ export default defineEventHandler(async (event) => {
     // formidable options
   })
 })
+```
+
+middleware
+
+```ts
+import { readFileMiddleware } from 'h3-formidable'
+
+const app = createApp()
+
+app
+  .use(readFileMiddleware({}))
+  .use(eventHandler((event) => {
+    // event.context.files
+  }))
+```
+
+```ts
+declare module 'h3' {
+  import type { Files } from 'h3-formidable'
+
+  interface H3EventContext {
+    files: Files
+  }
+}
 ```
 
 ## License
