@@ -16,7 +16,7 @@ export function readFiles(event: H3Event, options?: formidable.Options): Promise
   })
 }
 
-export function readFileMiddleware(options?: formidable.Options) {
+export function createFileParserMiddleware(options?: formidable.Options) {
   return eventHandler(async (event) => {
     const files = await readFiles(event, options)
     event.context.files = files

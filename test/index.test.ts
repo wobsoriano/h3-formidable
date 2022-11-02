@@ -5,7 +5,7 @@ import supertest from 'supertest'
 import { beforeEach, describe, expect, test } from 'vitest'
 import type { App } from 'h3'
 import { createApp, eventHandler, toNodeListener } from 'h3'
-import { readFileMiddleware, readFiles } from '../src'
+import { createFileParserMiddleware, readFiles } from '../src'
 
 function getFileContent(path: string) {
   return fs.readFileSync(path).toString().trim()
@@ -32,9 +32,9 @@ describe('parse multipart/form-data', () => {
     expect(getFileContent(res.body.files.text[0].filepath)).toBe('Hello world')
   })
 
-  test('readFileMiddleware()', async () => {
+  test('createFileParserMiddleware()', async () => {
     app
-      .use(readFileMiddleware())
+      .use(createFileParserMiddleware())
       .use('/upload', eventHandler((event) => {
         return { files: event.context.files }
       }))

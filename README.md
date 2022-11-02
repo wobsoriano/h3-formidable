@@ -19,7 +19,6 @@ import { readFiles } from 'h3-formidable'
 
 export default eventHandler(async (event) => {
   const files = await readFiles(event, {
-    // formidable options
     // https://github.com/node-formidable/formidable#options
   })
 })
@@ -28,12 +27,12 @@ export default eventHandler(async (event) => {
 middleware
 
 ```ts
-import { readFileMiddleware } from 'h3-formidable'
+import { createFileParserMiddleware } from 'h3-formidable'
 
 const app = createApp()
 
 app
-  .use(readFileMiddleware({}))
+  .use(createFileParserMiddleware({}))
   .use(eventHandler((event) => {
     // event.context.files
   }))
