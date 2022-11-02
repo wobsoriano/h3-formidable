@@ -1,7 +1,7 @@
 {
   "name": "h3-formidable",
   "version": "0.0.0",
-  "description": "TypeScript-first schema validation for h3.",
+  "description": "File upload parsing utility for h3 and Nuxt.",
   "author": "Robert Soriano <sorianorobertc@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/wobsoriano/h3-formidable#readme",
@@ -12,9 +12,11 @@
   "bugs": "https://github.com/wobsoriano/h3-formidable/issues",
   "keywords": [
     "h3",
-    "zod",
-    "connect",
-    "validation"
+    "formidable",
+    "upload",
+    "form",
+    "multipar",
+    "connect"
   ],
   "sideEffects": false,
   "exports": {
