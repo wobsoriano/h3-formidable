@@ -7,7 +7,7 @@ export function readFiles(event: H3Event, options?: formidable.Options): Promise
   return new Promise((resolve, reject) => {
     const form = formidable(options)
 
-    form.parse(event.req, (err, _fields, files) => {
+    form.parse(event.node.req, (err, _fields, files) => {
       if (err)
         reject(err)
 
