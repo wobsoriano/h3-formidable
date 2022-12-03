@@ -1,22 +1,39 @@
 import type { H3Event } from 'h3'
 import { eventHandler } from 'h3'
 import formidable from 'formidable'
-import type { Files } from 'formidable'
+import type { Fields, Files } from 'formidable'
 
-export function readFiles(event: H3Event, options?: formidable.Options): Promise<Files> {
-  return new Promise((resolve, reject) => {
+export interface FieldsAndFiles {
+  fields: Fields
+  files: Files
+}
+
+export function readFiles<
+  T extends boolean | undefined = undefined,
+>(event: H3Event, options?: formidable.Options & { includeFields?: T }): Promise<
+  T extends undefined ? Files : T extends true ? FieldsAndFiles : Fields
+> {
+  return new Promise<any>((resolve, reject) => {
     const form = formidable(options)
 
-    form.parse(event.node.req, (err, _fields, files) => {
+    form.parse(event.node.req, (err, fields, files) => {
       if (err)
         reject(err)
+
+      if (options?.includeFields) {
+        resolve({
+          fields,
+          files,
+        })
+        return
+      }
 
       resolve(files)
     })
   })
 }
 
-export function createFileParserMiddleware(options?: formidable.Options) {
+export function createFileParserMiddleware<T extends boolean>(options?: formidable.Options & { includeFields?: T }) {
   return eventHandler(async (event) => {
     const files = await readFiles(event, options)
     event.context.files = files
@@ -24,5 +41,6 @@ export function createFileParserMiddleware(options?: formidable.Options) {
 }
 
 export type {
+  Fields,
   Files,
 }
