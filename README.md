@@ -39,7 +39,7 @@ const app = createApp()
 app
   .use(createFileParserMiddleware({}))
   .use(eventHandler((event) => {
-    // event.context.files
+    // event.context.files contains parsed files
   }))
 ```
 
