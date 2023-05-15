@@ -45,6 +45,22 @@ export default eventHandler(async (event) => {
 })
 ```
 
+## Usage with H3
+
+```ts
+import { createFileParserMiddleware } from 'h3-formidable'
+
+export default createFileParserMiddleware({})
+
+const app = createApp()
+
+app
+  .use(createFileParserMiddleware({}))
+  .use(eventHandler((event) => {
+    // event.context.files contains parsed files
+  }))
+```
+
 Typing
 
 ```ts
