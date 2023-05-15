@@ -58,7 +58,7 @@ app
   }))
 ```
 
-Typing
+## TypeScript Shim
 
 ```ts
 declare module 'h3' {
