@@ -10,9 +10,25 @@ File upload parsing utility for h3 and Nuxt using [formidable](https://github.co
 npm install h3-formidable
 ```
 
-## Usage
+## Usage with Nuxt
 
-per route
+1. Create a server middleware
+
+```ts
+import { createFileParserMiddleware } from 'h3-formidable'
+
+export default createFileParserMiddleware({})
+```
+
+2. Access files in your api route
+
+```ts
+export default eventHandler(async (event) => {
+  const { files } = event.context
+})
+```
+
+or you can ditch server middleware and parse files per api route...
 
 ```ts
 import { readFiles } from 'h3-formidable'
@@ -26,24 +42,6 @@ export default eventHandler(async (event) => {
     includeFields: true,
     // other formidable options here
   })
-})
-```
-
-or via server middleware
-
-`~/server/middleware/formidable.ts`
-
-```ts
-import { createFileParserMiddleware } from 'h3-formidable'
-
-export default createFileParserMiddleware({})
-```
-
-`~/server/api/some-route.ts`
-
-```ts
-export default eventHandler(async (event) => {
-  const { files } = event.context
 })
 ```
 
