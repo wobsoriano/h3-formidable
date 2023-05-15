@@ -29,10 +29,14 @@ export default eventHandler(async (event) => {
 })
 ```
 
-middleware
+or via server middleware
+
+`~/server/middleware/formidable.ts`
 
 ```ts
 import { createFileParserMiddleware } from 'h3-formidable'
+
+export default createFileParserMiddleware({})
 
 const app = createApp()
 
@@ -42,6 +46,16 @@ app
     // event.context.files contains parsed files
   }))
 ```
+
+`~/server/api/some-route.ts`
+
+```ts
+export default eventHandler(async (event) => {
+  const { files } = event.context
+})
+```
+
+Typing
 
 ```ts
 declare module 'h3' {
