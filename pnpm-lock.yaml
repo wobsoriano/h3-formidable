@@ -3,7 +3,7 @@ lockfileVersion: '6.0'
 dependencies:
   formidable:
     specifier: v3
-    version: 3.1.3
+    version: 3.2.5
 
 devDependencies:
   '@antfu/eslint-config':
@@ -1876,8 +1876,8 @@ packages:
       qs: 6.11.1
     dev: true
 
-  /formidable@3.1.3:
-    resolution: {integrity: sha512-nPy5vK/zvhlGBvIb1RqNLAk2D3kM+Dqz9tuaVFez2fogTaYDSPPpBbJpmy2FOmPv+JN4rqQRf4C3wdg6eqV47Q==}
+  /formidable@3.2.5:
+    resolution: {integrity: sha512-GRGDJTWAZ3H+umZbF2bKcqjsTov25zgon1St05ziKdiSw3kxvI+meMJrXx3ylRmuSADOpviSakBuS4yvGCGnSg==}
     dependencies:
       dezalgo: 1.0.3
       hexoid: 1.0.0
