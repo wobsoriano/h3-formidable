@@ -4,6 +4,8 @@
 
 File upload parsing utility for h3 and Nuxt using [formidable](https://github.com/node-formidable/formidable).
 
+Demo - https://stackblitz.com/edit/nuxt-starter-ykuwmn
+
 ## Install
 
 ```bash
