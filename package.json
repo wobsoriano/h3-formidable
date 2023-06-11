@@ -48,17 +48,17 @@
     "formidable": "v3"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.38.6",
+    "@antfu/eslint-config": "^0.39.5",
     "@types/formidable": "^2.0.6",
     "@types/supertest": "^2.0.12",
-    "bumpp": "^9.1.0",
-    "eslint": "^8.40.0",
+    "bumpp": "^9.1.1",
+    "eslint": "^8.42.0",
     "h3": "^1.6.6",
     "supertest": "^6.3.3",
     "tsup": "6.7.0",
-    "typescript": "^5.0.4",
-    "vite": "^4.3.6",
-    "vitest": "^0.31.0"
+    "typescript": "^5.1.3",
+    "vite": "^4.3.9",
+    "vitest": "^0.32.0"
   },
   "eslintConfig": {
     "extends": "@antfu"
