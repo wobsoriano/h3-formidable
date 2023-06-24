@@ -14,11 +14,16 @@ type ReadFilesReturn<T> = Promise<
 
 interface ReadFilesOptions<T> extends Options {
   includeFields?: T
+  plugins?: formidable.PluginFunction[]
 }
 
 export function readFiles<T extends boolean | undefined = undefined>(event: H3Event, options?: ReadFilesOptions<T>): ReadFilesReturn<T> {
   return new Promise<any>((resolve, reject) => {
     const form = formidable(options)
+
+    options?.plugins?.forEach((plugin) => {
+      form.use(plugin)
+    })
 
     form.parse(event.node.req, (err, fields, files) => {
       if (err)
