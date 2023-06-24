@@ -2,6 +2,7 @@ import type { H3Event } from 'h3'
 import { eventHandler } from 'h3'
 import formidable from 'formidable'
 import type { Fields, Files, Options } from 'formidable'
+import type IncomingForm from 'formidable/Formidable'
 
 export interface FieldsAndFiles {
   fields: Fields
@@ -14,16 +15,14 @@ type ReadFilesReturn<T> = Promise<
 
 interface ReadFilesOptions<T> extends Options {
   includeFields?: T
-  plugins?: formidable.PluginFunction[]
+  cb?: (incomingForm: IncomingForm) => void
 }
 
 export function readFiles<T extends boolean | undefined = undefined>(event: H3Event, options?: ReadFilesOptions<T>): ReadFilesReturn<T> {
   return new Promise<any>((resolve, reject) => {
     const form = formidable(options)
 
-    options?.plugins?.forEach((plugin) => {
-      form.use(plugin)
-    })
+    options?.cb?.(form)
 
     form.parse(event.node.req, (err, fields, files) => {
       if (err)
