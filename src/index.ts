@@ -52,3 +52,9 @@ export type {
   Fields,
   Files,
 }
+
+declare module 'h3' {
+  interface H3EventContext {
+    files: FieldsAndFiles | Fields
+  }
+}
