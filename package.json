@@ -42,7 +42,7 @@
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
-    "h3": ">=1.6.0"
+    "h3": "^1.8.0"
   },
   "dependencies": {
     "formidable": "^3.5.1"
