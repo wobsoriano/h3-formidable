@@ -45,7 +45,7 @@
     "h3": ">=1.6.0"
   },
   "dependencies": {
-    "formidable": "v3"
+    "formidable": "^3.5.1"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.5",
