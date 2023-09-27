@@ -7,6 +7,7 @@ import type IncomingForm from 'formidable/Formidable'
 export interface FieldsAndFiles {
   fields: Fields
   files: Files
+  form: IncomingForm
 }
 
 type ReadFilesReturn<T> = Promise<
@@ -30,6 +31,7 @@ export function readFiles<T extends boolean | undefined = undefined>(event: H3Ev
 
       if (options?.includeFields) {
         resolve({
+          form,
           fields,
           files,
         })
