@@ -4,57 +4,42 @@ import formidable from 'formidable'
 import type { Fields, Files, Options } from 'formidable'
 import type IncomingForm from 'formidable/Formidable'
 
-export interface FieldsAndFiles {
+export interface Result {
   fields: Fields
   files: Files
+  form: IncomingForm
 }
 
-type ReadFilesReturn<T> = Promise<
-  T extends undefined ? Files : T extends true ? FieldsAndFiles : Fields
->
-
-interface ReadFilesOptions<T> extends Options {
-  includeFields?: T
+interface ReadFilesOptions extends Options {
   getForm?: (incomingForm: IncomingForm) => void
 }
 
-export function readFiles<T extends boolean | undefined = undefined>(event: H3Event, options?: ReadFilesOptions<T>): ReadFilesReturn<T> {
-  return new Promise<any>((resolve, reject) => {
-    const form = formidable(options)
+export async function readFiles(event: H3Event, options?: ReadFilesOptions): Promise<{
+  fields: Fields
+  files: Files
+  form: IncomingForm
+}> {
+  const form = formidable(options)
 
-    options?.getForm?.(form)
+  options?.getForm?.(form)
 
-    form.parse(event.node.req, (err, fields, files) => {
-      if (err)
-        reject(err)
+  const [fields, files] = await form.parse(event.node.req)
 
-      if (options?.includeFields) {
-        resolve({
-          fields,
-          files,
-        })
-        return
-      }
-
-      resolve(files)
-    })
-  })
+  return {
+    fields,
+    files,
+    form,
+  }
 }
 
-export function createFileParserMiddleware<T extends boolean>(options?: ReadFilesOptions<T>) {
+export function createFileParserMiddleware(options?: ReadFilesOptions) {
   return eventHandler(async (event) => {
     const files = await readFiles(event, options)
-    event.context.files = files
+    event.context.formidable = files
   })
 }
 
 export type {
   Fields,
   Files,
-}
-
-declare module 'h3' {
-  interface H3EventContext {
-    files: FieldsAndFiles | Fields
-  }
 }
