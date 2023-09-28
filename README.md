@@ -49,7 +49,7 @@ export default eventHandler(async (event) => {
 
 ## Plugins
 
-If you have a custom plugin, you can use the `getForm` option to access the incoming form and do whatever you want with it.
+If you have a custom [plugin](https://github.com/node-formidable/formidable#useplugin-plugin), you can use the `getForm` option to access the incoming form and do whatever you want with it.
 
 ```ts
 export default eventHandler(async (event) => {
