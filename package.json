@@ -22,15 +22,20 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./helpers": {
+      "types": "./helpers/index.d.ts",
+      "import": "./helpers/index.mjs"
     }
   },
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "helpers"
   ],
   "scripts": {
     "build-fast": "tsup src/index.ts --format cjs,esm",

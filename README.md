@@ -12,21 +12,25 @@ Demo - https://stackblitz.com/edit/nuxt-starter-ykuwmn
 npm install h3-formidable
 ```
 
-## Usage with Nuxt
+## Usage
+
+This example shows Nuxt usage but you can use it with any h3 app.
 
 1. Create a server middleware
 
 ```ts
 import { createFileParserMiddleware } from 'h3-formidable'
 
-export default createFileParserMiddleware({})
+export default createFileParserMiddleware({
+  // formidable options
+})
 ```
 
 2. Access files in your api route
 
 ```ts
 export default eventHandler(async (event) => {
-  const { files } = event.context
+  const { files } = event.context.formidable
 })
 ```
 
@@ -36,38 +40,38 @@ or you can ditch server middleware and parse files per api route...
 import { readFiles } from 'h3-formidable'
 
 export default eventHandler(async (event) => {
-  // only files
-  const files = await readFiles(event)
-
-  // with fields
-  const { fields, files } = await readFiles(event, {
-    includeFields: true,
-    // other formidable options here
+  const { fields, files, form } = await readFiles(event, {
+    // formidable options
   })
 })
 ```
 
-## Usage with H3
+## Helpers
 
 ```ts
-import { createFileParserMiddleware } from 'h3-formidable'
+import { firstValues, readBooleans } from 'h3-formidable/helpers'
 
-const app = createApp()
-app
-  .use(createFileParserMiddleware({}))
-  .use(eventHandler((event) => {
-    // event.context.files contains parsed files
-  }))
+export default eventHandler(async (event) => {
+  const { fields, files, form } = await readFiles(event)
+
+  // Gets first values of fields
+  const exceptions = ['thisshouldbeanarray']
+  const fieldsSingle = firstValues(form, fields, exceptions)
+
+  // Converts html form input type="checkbox" "on" to boolean
+  const expectedBooleans = ['checkbox1', 'wantsNewsLetter', 'hasACar']
+  const fieldsWithBooleans = readBooleans(fieldsSingle, expectedBooleans)
+})
 ```
 
 ## TypeScript Shim
 
 ```ts
 declare module 'h3' {
-  import type { FieldsAndFiles, Files } from 'h3-formidable'
+  import type { FieldsAndFiles } from 'h3-formidable'
 
   interface H3EventContext {
-    files: FieldsAndFiles | Files
+    formidable: FieldsAndFiles
   }
 }
 ```

@@ -20,40 +20,24 @@ describe('parse multipart/form-data', () => {
     request = supertest(toNodeListener(app))
   })
 
-  describe('readFiles()', () => {
-    test('includeFields = false', async () => {
-      app.use('/upload', eventHandler(async (event) => {
-        const files = await readFiles(event)
-        return { files }
-      }))
+  test('readFiles()', async () => {
+    app.use('/upload', eventHandler(async (event) => {
+      const { fields, files } = await readFiles(event)
+      return { fields, files }
+    }))
 
-      const pathToFile = path.join(__dirname, '/hello.txt')
-      const res = await request.post('/upload').attach('text', pathToFile)
+    const pathToFile = path.join(__dirname, '/hello.txt')
+    const res = await request.post('/upload').attach('text', pathToFile).field('name', 'John Doe')
 
-      expect(getFileContent(res.body.files.text[0].filepath)).toBe('Hello world')
-    })
-
-    test('includeFields = true', async () => {
-      app.use('/upload', eventHandler(async (event) => {
-        const { fields, files } = await readFiles(event, {
-          includeFields: true,
-        })
-        return { fields, files }
-      }))
-
-      const pathToFile = path.join(__dirname, '/hello.txt')
-      const res = await request.post('/upload').attach('text', pathToFile).field('name', 'John Doe')
-
-      expect(getFileContent(res.body.files.text[0].filepath)).toBe('Hello world')
-      expect(res.body.fields.name[0]).toBe('John Doe')
-    })
+    expect(getFileContent(res.body.files.text[0].filepath)).toBe('Hello world')
+    expect(res.body.fields.name[0]).toBe('John Doe')
   })
 
   test('createFileParserMiddleware()', async () => {
     app
       .use(createFileParserMiddleware())
       .use('/upload', eventHandler((event) => {
-        return { files: event.context.files }
+        return { files: event.context.formidable.files }
       }))
 
     const pathToFile = path.join(__dirname, '/hello.txt')
