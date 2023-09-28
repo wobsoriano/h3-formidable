@@ -47,6 +47,24 @@ export default eventHandler(async (event) => {
 })
 ```
 
+## Plugins
+
+If you have a custom plugin, you can use the `getForm` option to access the incoming form and do whatever you want with it.
+
+```ts
+export default eventHandler(async (event) => {
+  const { fields, files } = await readFiles(event, {
+    getForm(form) {
+      form.use(() => {
+        console.log('woohoo, custom plugin')
+      })
+    }
+  })
+})
+```
+
+Anything inside the getForm callback will be executed before the form is parsed.
+
 ## Helpers
 
 ```ts
