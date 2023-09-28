@@ -11,6 +11,7 @@ export interface Result {
 }
 
 interface ReadFilesOptions extends Options {
+  plugins?: formidable.PluginFunction[]
   getForm?: (incomingForm: IncomingForm) => void
 }
 
@@ -22,6 +23,8 @@ export async function readFiles(event: H3Event, options?: ReadFilesOptions): Pro
   const form = formidable(options)
 
   options?.getForm?.(form)
+
+  options?.plugins?.forEach(form.use)
 
   const [fields, files] = await form.parse(event.node.req)
 
