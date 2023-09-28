@@ -42,6 +42,7 @@ import { readFiles } from 'h3-formidable'
 export default eventHandler(async (event) => {
   const { fields, files, form } = await readFiles(event, {
     // formidable options
+    // https://github.com/node-formidable/formidable#options
   })
 })
 ```
