@@ -14,23 +14,22 @@ interface ReadFilesOptions extends Options {
   getForm?: (incomingForm: IncomingForm) => void
 }
 
-export function readFiles(event: H3Event, options?: ReadFilesOptions) {
-  return new Promise<Result>((resolve, reject) => {
-    const form = formidable(options)
+export async function readFiles(event: H3Event, options?: ReadFilesOptions): Promise<{
+  fields: Fields
+  files: Files
+  form: IncomingForm
+}> {
+  const form = formidable(options)
 
-    options?.getForm?.(form)
+  options?.getForm?.(form)
 
-    form.parse(event.node.req, (err, fields, files) => {
-      if (err)
-        return reject(err)
+  const [fields, files] = await form.parse(event.node.req)
 
-      resolve({
-        fields,
-        files,
-        form,
-      })
-    })
-  })
+  return {
+    fields,
+    files,
+    form,
+  }
 }
 
 export function createFileParserMiddleware(options?: ReadFilesOptions) {
