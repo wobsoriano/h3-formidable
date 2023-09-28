@@ -87,10 +87,10 @@ export default eventHandler(async (event) => {
 
 ```ts
 declare module 'h3' {
-  import type { FieldsAndFiles } from 'h3-formidable'
+  import type { Result } from 'h3-formidable'
 
   interface H3EventContext {
-    formidable: FieldsAndFiles
+    formidable: Result
   }
 }
 ```
